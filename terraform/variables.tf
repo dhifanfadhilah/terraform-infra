@@ -15,5 +15,3 @@ variable "projectName" {
     type = string
     default = "gitops"
 }
-
-#test workflow
