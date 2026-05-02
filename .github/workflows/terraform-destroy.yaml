@@ -1,0 +1,48 @@
+name: "Terraform Destroy"
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
+  AWS_REGION: us-east-1
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: ${{ env.AWS_IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.6.3
+
+      - name: Terraform Init
+        run: terraform init -input=false -backend-config="bucket=$BUCKET_TF_STATE"
+
+      - name: Terraform Plan Destroy
+        run: terraform plan -destroy -out=destroy.tfplan
+
+      - name: Terraform Destroy
+        run: terraform apply -auto-approve destroy.tfplan
