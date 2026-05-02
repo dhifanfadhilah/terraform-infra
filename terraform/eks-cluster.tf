@@ -32,7 +32,7 @@ module "eks" {
     one = {
       name           = "node-group-one"
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m7i-flex.large"]
+      instance_types = ["t3.small"]
 
       min_size     = 1
       max_size     = 2
@@ -42,7 +42,7 @@ module "eks" {
     two = {
       name           = "node-group-two"
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m7i-flex.large"]
+      instance_types = ["t3.small"]
 
       min_size     = 1
       max_size     = 3
