@@ -24,10 +24,6 @@ module "eks" {
     }
   }
 
-  #   eks_managed_node_group_defaults = {
-  #     ami_type = "AL2023_x86_64"
-  #   }
-
   eks_managed_node_groups = {
     one = {
       name           = "node-group-one"
