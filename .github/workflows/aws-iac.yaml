@@ -92,9 +92,4 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -no-color -auto-approve -input=false -parallelism=1
-
-      # - name: Install Nginx Ingress Controller
-      #   id: install-nginx
-      #   if: steps.verify-cluster.outcome == 'success'
-      #   run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.15.1/deploy/static/provider/aws/deploy.yaml
+        run: terraform apply -no-color -auto-approve -input=false
